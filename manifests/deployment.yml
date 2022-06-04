@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "dmscluster-e709"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "dmscluster-e709"
+  template:
+    metadata:
+      labels:
+        app: "dmscluster-e709"
+    spec:
+      containers:
+        - name: "dmscluster-e709"
+          image: "dmsazureregistry.azurecr.io/dmscluster"
+          ports:
+          - containerPort: 80
