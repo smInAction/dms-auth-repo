@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dms-auth-service-deploy
+  labels:
+    name: dms-auth-service-deploy
+    app: ctc-dms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: dms-auth-service-pod
+      app: ctc-dms
+  template:
+    metadata:
+      name: dms-auth-service-pod
+      labels:
+        name: dms-auth-service-pod
+        app: ctc-dms
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+        - name: dms-auth-service
+          image: shoppingreg.azurecr.io/images/dms-auth-service:latest
+          ports:
+            - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dms-auth-service
+  labels:
+    name: dms-auth-service-svc
+    app: ctc-dms
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8083
+      targetPort: 8083
+      nodePort: 31003
+  selector:
+    name: dms-auth-service-pod
+    app: ctc-dms

@@ -1,1 +1,1 @@
-
+This is authentication cum authorization server for DMS module which authenticates user against DB using Spring JPA and authorizes user with JWT token.
