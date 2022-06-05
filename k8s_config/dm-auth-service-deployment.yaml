@@ -22,7 +22,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: dms-auth-service
-          image: shoppingreg.azurecr.io/images/dms-auth-service:latest
+          image: dmsazureregistry.azurecr.io/images/dms-auth-service:latest
           ports:
             - containerPort: 8083
 ---
