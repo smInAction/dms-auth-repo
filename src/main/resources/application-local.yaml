@@ -1,0 +1,30 @@
+## MySQL
+## Spring Boot configures Hibernate as the default JPA provider
+## Spring Boot-1, the default connection pool was Tomcat, but it has been changed to HikariCP with Spring Boot-2
+spring:
+  application:
+    name: ctc-dms
+  datasource:
+    url: jdbc:mysql://localhost:3306/dmsdb
+    username: ${dmsmysqlusername}
+    password: ${dmsmysqlpassword}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      # here, JPA implementation is Hibernate
+      # possible values: create(Hibernate first drops existing tables, then creates new tables)
+      # create-drop(similar to create, with the addition that Hibernate will drop the database after all operations are completed. Typically used for unit testing)
+      # validate(validates whether the tables and columns exist, otherwise it throws an exception)
+      # update(the object model created based on the mappings(annotations or XML) is compared with the existing schema, and 
+      # then Hibernate updates the schema according to the diff.)
+      # update - never deletes the existing tables or columns even if they are no more required by the application
+jwt:
+  secret: ${jwtsecret}
+
+azure:
+  keyvault:
+    enabled: true
+    uri: https://smkeyvault1.vault.azure.net/
+    client-id: 6a702f74-e4d2-4862-829b-d3fca386a416
+    client-key: Lfh8Q~Lzbq2tE7cJlcHmWy1fTKIhTX_qbMXN-crT
+    tenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d	
