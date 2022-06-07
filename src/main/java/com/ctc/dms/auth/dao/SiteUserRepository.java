@@ -1,18 +1,52 @@
 package com.ctc.dms.auth.dao;
 
-import java.util.Optional;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.ctc.dms.auth.model.SiteUser;
-/*
- * CrudRepository: saves given entity, returns entity identified by id, returns all entities, deletes/updates given entity
- * PagingAndSortingRepository: on top of CrudRepository, additional methods for paging and sorting
- * JPARepository: extends CrudRespository & JPARespository
+import com.ctc.dms.auth.model.SiteUserDocument;
+import com.ctc.dms.auth.model.SiteUserEntity;
+/**
+ * This class is proxy over selecting MySQL DB or Cosmo DB.
+ * Selection of DB will be based on property value defined in local/aks application.yaml.
+ * @author Shalu_Malhotra
+ *
  */
-@Repository
-public interface SiteUserRepository extends JpaRepository<SiteUser, Integer>{
-	Optional<SiteUser> findUserByUsername(String username);
+@Component
+public class SiteUserRepository{
+	@Autowired
+	private SiteUserDbRepository siteUserDbRepository;
+	@Autowired
+	private SiteUserCosmoRepository siteUserCosmoRepository;
+	@Value("custom.repo")
+	private String repo;
+	
+	/**
+	 * find user entity by user name from Cosmo or MySql DB depending upon custom.repo property
+	 * @param username
+	 * @return
+	 */
+	public SiteUser findUserByUsername(String username){
+		if(repo.equalsIgnoreCase("cosmo")) {
+			return siteUserCosmoRepository.findUserByUsername(username);
+		}else if(repo.equalsIgnoreCase("db")) {
+			return siteUserDbRepository.findUserByUsername(username);
+		}
+		return null;
+	}
+	
+	/**
+	 * save user in Cosmo or MySql DB depending upon custom.repo property
+	 * @param user
+	 */
+	public SiteUser save(SiteUser user){
+		if(repo.equalsIgnoreCase("cosmo")) {
+			return siteUserCosmoRepository.save((SiteUserDocument)user);
+		}else if(repo.equalsIgnoreCase("db")) {
+			return siteUserDbRepository.save((SiteUserEntity)user);
+		}
+		return null;
+	}
 
 }

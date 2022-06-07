@@ -28,3 +28,6 @@ azure:
     client-id: 6a702f74-e4d2-4862-829b-d3fca386a416
     client-key: Lfh8Q~Lzbq2tE7cJlcHmWy1fTKIhTX_qbMXN-crT
     tenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d	
+
+custom:
+  repo: local
