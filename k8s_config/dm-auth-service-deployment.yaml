@@ -38,7 +38,7 @@ spec:
   ports:
     - port: 8083
       targetPort: 8083
-      nodePort: 31003
+      nodePort: 31004
   selector:
     name: dms-auth-service-pod
     app: ctc-dms
